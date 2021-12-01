@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Tests for Day 1: Sonar Sweep."""
 
 import unittest
