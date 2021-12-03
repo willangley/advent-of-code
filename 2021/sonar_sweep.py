@@ -7,9 +7,10 @@ https://adventofcode.com/2021/day/1
 import argparse
 import itertools
 import sys
+from typing import List
 
 
-def parse_report(raw_report: str) -> list[int]:
+def parse_report(raw_report: str) -> List[int]:
   """Parses a report from a sonar sweep."""
   return [int(line) for line in raw_report.strip().splitlines()]
 
@@ -22,7 +23,7 @@ def pairwise(iterable):
   return zip(a, b)
 
 
-def count_depth_increases(report: list[int]) -> int:
+def count_depth_increases(report: List[int]) -> int:
   """Counts depth increases in a sonar sweep.
 
   First half of Day 1.
@@ -42,7 +43,7 @@ def threewise(iterable):
   return zip(a, b, c)
 
 
-def count_depth_increases_windowed(report: list[int]) -> int:
+def count_depth_increases_windowed(report: List[int]) -> int:
   """Counts depth increases in a windows of a sonar sweep.
 
   Second half of Day 1.
