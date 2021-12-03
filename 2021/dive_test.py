@@ -17,12 +17,20 @@ up 3
 down 8
 forward 2
 """
+    self.course = dive.parse_course(self.raw_course)
 
   def test_parse_course(self):
     self.assertListEqual(dive.parse_course(self.raw_course),
                          [(Direction.FORWARD, 5), (Direction.DOWN, 5),
                           (Direction.FORWARD, 8), (Direction.UP, 3),
                           (Direction.DOWN, 8), (Direction.FORWARD, 2)])
+
+  def test_calculate_position(self):
+    self.assertEqual(dive.calculate_position(self.course), (15, 10))
+
+  def test_multiply_position_depth(self):
+    self.assertEqual(dive.multiply_position_depth((15, 10)), 150)
+
 
 if __name__ == '__main__':
   unittest.main()
