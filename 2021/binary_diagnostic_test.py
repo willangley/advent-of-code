@@ -21,16 +21,17 @@ class BinaryDiagnosticTestCase(unittest.TestCase):
 00010
 01010
 """
-    self.diagnostic = binary_diagnostic.Diagnostic()
-    self.diagnostic.parse(self.raw_diagnostic)
+    self.diagnostic = binary_diagnostic.Diagnostic.parse(self.raw_diagnostic)
 
   def test_parse_diagnostic(self):
-    diagnostic = binary_diagnostic.Diagnostic()
-    diagnostic.parse(self.raw_diagnostic)
-    self.assertEqual(diagnostic.gamma(), 22)
-    self.assertEqual(diagnostic.epsilon(), 9)
+    diagnostic = binary_diagnostic.Diagnostic.parse(self.raw_diagnostic)
+    self.assertListEqual(diagnostic.numbers,
+                         [4, 30, 22, 23, 21, 15, 7, 28, 16, 25, 2, 10])
+    self.assertEqual(diagnostic.bits, 5)
 
   def test_power_consumption(self):
+    self.assertEqual(binary_diagnostic.gamma(self.diagnostic), 22)
+    self.assertEqual(binary_diagnostic.epsilon(self.diagnostic), 9)
     self.assertEqual(binary_diagnostic.power_consumption(self.diagnostic), 198)
 
 

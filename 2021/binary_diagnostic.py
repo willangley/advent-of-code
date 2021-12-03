@@ -10,33 +10,52 @@ from typing import List
 
 
 class Diagnostic:
-  def __init__(self):
-    self.popcount: List[int] = []
-    self.lines: int = 0
+  def __init__(self, numbers: List[int], bits: int):
+    self.numbers = numbers
+    self.bits = bits
 
-  def parse(self, raw_diagnostic: str):
+  @staticmethod
+  def parse(raw_diagnostic: str):
+    numbers: List[int] = []
+    bits: int = 0
+
     for line in raw_diagnostic.strip().splitlines():
-      self.lines += 1
+      numbers.append(int(line, base=2))
+      bits = len(line.strip())
 
-      for i, bit in enumerate(line.strip()):
-        if i >= len(self.popcount):
-          self.popcount.append(0)
-        if bit == '1':
-          self.popcount[i] += 1
+    return Diagnostic(numbers, bits)
 
-  def gamma(self):
-    raw_gamma = ['1' if bit > (self.lines / 2) else '0'
-                 for bit in self.popcount]
-    return int(''.join(raw_gamma), base=2)
+  def count_bits_at(self, bit: int):
+    count = 0
+    mask = 1 << (self.bits - bit)
+    for number in self.numbers:
+      if number & mask:
+        count += 1
+    return count
 
-  def epsilon(self):
-    raw_epsilon = ['0' if bit > (self.lines / 2) else '1'
-                   for bit in self.popcount]
-    return int(''.join(raw_epsilon), base=2)
+
+def gamma(diagnostic: Diagnostic) -> int:
+  raw_gamma = 0
+  for bit in range(1, diagnostic.bits + 1):
+    raw_gamma <<= 1
+    count = diagnostic.count_bits_at(bit)
+    if count > len(diagnostic.numbers) / 2:
+      raw_gamma += 1
+  return raw_gamma
+
+
+def epsilon(diagnostic: Diagnostic) -> int:
+  return ~gamma(diagnostic) & int('1' * diagnostic.bits, base=2)
 
 
 def power_consumption(diagnostic: Diagnostic) -> int:
-  return diagnostic.gamma() * diagnostic.epsilon()
+  """Determines power consumption of a submarine from a Diagnostic.
+
+  First half of Day 3.
+
+  :param diagnostic: a diagnostic
+  :return: power consumption"""
+  return gamma(diagnostic) * epsilon(diagnostic)
 
 
 if __name__ == "__main__":
@@ -45,6 +64,5 @@ if __name__ == "__main__":
                       default=sys.stdin)
   args = parser.parse_args()
 
-  diagnostic = Diagnostic()
-  diagnostic.parse(args.infile.read())
+  diagnostic = Diagnostic.parse(args.infile.read())
   print('[Part 1] power consumption:', power_consumption(diagnostic))
