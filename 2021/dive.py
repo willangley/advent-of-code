@@ -10,6 +10,7 @@ from enum import Enum
 import sys
 from typing import NamedTuple
 
+
 class Direction(Enum):
   FORWARD = 1  # increases the horizontal position by `X` units
   DOWN = 2  # *increases* the depth by `X` units

@@ -27,11 +27,12 @@ forward 2
 
   def test_calculate_position_part1(self):
     self.assertEqual(
-      dive.calculate_position(self.course, dive.Part1Submarine()), 150)
+        dive.calculate_position(self.course, dive.Part1Submarine()), 150)
 
   def test_calculate_position_part2(self):
     self.assertEqual(
-      dive.calculate_position(self.course, dive.Part2Submarine()), 900)
+        dive.calculate_position(self.course, dive.Part2Submarine()), 900)
+
 
 if __name__ == '__main__':
   unittest.main()
