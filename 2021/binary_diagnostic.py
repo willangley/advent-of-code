@@ -46,7 +46,9 @@ def gamma(diagnostic: Diagnostic) -> int:
 
 
 def epsilon(diagnostic: Diagnostic) -> int:
-  return ~gamma(diagnostic) & int('1' * diagnostic.bits, base=2)
+  # Negative numbers have an infinite number of leading 1s, so we mask them away
+  # after NOT. Ref: https://wiki.python.org/moin/BitwiseOperators
+  return ~gamma(diagnostic) & (1 << diagnostic.bits) - 1
 
 
 def power_consumption(diagnostic: Diagnostic) -> int:
