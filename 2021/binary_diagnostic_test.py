@@ -34,6 +34,13 @@ class BinaryDiagnosticTestCase(unittest.TestCase):
     self.assertEqual(binary_diagnostic.epsilon(self.diagnostic), 9)
     self.assertEqual(binary_diagnostic.power_consumption(self.diagnostic), 198)
 
+  def test_life_support(self):
+    self.assertEqual(binary_diagnostic.oxygen_generator_rating(self.diagnostic),
+                     23)
+    self.assertEqual(binary_diagnostic.co2_scrubber_rating(self.diagnostic), 10)
+    self.assertEqual(binary_diagnostic.life_support_rating(self.diagnostic),
+                     230)
+
 
 if __name__ == '__main__':
   unittest.main()

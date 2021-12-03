@@ -25,11 +25,13 @@ class Diagnostic:
 
     return Diagnostic(numbers, bits)
 
+  def mask(self, bit: int):
+    return 1 << (self.bits - bit)
+
   def count_bits_at(self, bit: int):
     count = 0
-    mask = 1 << (self.bits - bit)
     for number in self.numbers:
-      if number & mask:
+      if number & self.mask(bit):
         count += 1
     return count
 
@@ -37,10 +39,9 @@ class Diagnostic:
 def gamma(diagnostic: Diagnostic) -> int:
   raw_gamma = 0
   for bit in range(1, diagnostic.bits + 1):
-    raw_gamma <<= 1
     count = diagnostic.count_bits_at(bit)
     if count > len(diagnostic.numbers) / 2:
-      raw_gamma += 1
+      raw_gamma += diagnostic.mask(bit)
   return raw_gamma
 
 
@@ -58,6 +59,44 @@ def power_consumption(diagnostic: Diagnostic) -> int:
   return gamma(diagnostic) * epsilon(diagnostic)
 
 
+def oxygen_generator_rating(diagnostic: Diagnostic) -> int:
+  for bit in range(1, diagnostic.bits + 1):
+    count = diagnostic.count_bits_at(bit)
+    mask = diagnostic.mask(bit)
+    most_common_bit = mask if count >= len(diagnostic.numbers) / 2 else 0
+    diagnostic = Diagnostic([number for number in diagnostic.numbers
+                             if number & mask == most_common_bit],
+                            diagnostic.bits)
+    if len(diagnostic.numbers) == 1:
+      break
+
+  return diagnostic.numbers[0]
+
+
+def co2_scrubber_rating(diagnostic: Diagnostic) -> int:
+  for bit in range(1, diagnostic.bits + 1):
+    count = diagnostic.count_bits_at(bit)
+    mask = diagnostic.mask(bit)
+    least_common_bit = mask if count < len(diagnostic.numbers) / 2 else 0
+    diagnostic = Diagnostic([number for number in diagnostic.numbers
+                             if number & mask == least_common_bit],
+                            diagnostic.bits)
+    if len(diagnostic.numbers) == 1:
+      break
+
+  return diagnostic.numbers[0]
+
+
+def life_support_rating(diagnostic: Diagnostic) -> int:
+  """Determines life support rating of a submarine from a Diagnostic.
+
+  Second half of Day 3.
+
+  :param diagnostic: a diagnostic
+  :return: power consumption"""
+  return oxygen_generator_rating(diagnostic) * co2_scrubber_rating(diagnostic)
+
+
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Day 1: Sonar Sweep")
   parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
@@ -66,3 +105,4 @@ if __name__ == "__main__":
 
   diagnostic = Diagnostic.parse(args.infile.read())
   print('[Part 1] power consumption:', power_consumption(diagnostic))
+  print('[Part 2] life support rating:', life_support_rating(diagnostic))
