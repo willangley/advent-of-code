@@ -8,13 +8,13 @@ from abc import ABC, abstractmethod
 import argparse
 from enum import Enum
 import sys
-from typing import NamedTuple
+from typing import List, NamedTuple
 
 
 class Direction(Enum):
-  FORWARD = 1  # increases the horizontal position by `X` units
-  DOWN = 2  # *increases* the depth by `X` units
-  UP = 3  # *decreases* the depth by `X` units
+  FORWARD = 1
+  DOWN = 2
+  UP = 3
 
 
 class Step(NamedTuple):
@@ -22,9 +22,9 @@ class Step(NamedTuple):
   distance: int
 
 
-def parse_course(raw_course):
+def parse_course(raw_course: str) -> List[Step]:
   """Parses a planned course (the puzzle input.)"""
-  course = []
+  course: List[Step] = []
   raw_direction: str
   raw_distance: str
 
@@ -36,6 +36,8 @@ def parse_course(raw_course):
 
 
 class Submarine(ABC):
+  """A submarine."""
+
   def __init__(self):
     self.horizontal: int = 0
     self.depth: int = 0
@@ -44,12 +46,27 @@ class Submarine(ABC):
   def move(self, step: Step):
     pass
 
-  def position(self):
-    return (self.horizontal, self.depth)
+  def follow(self, course: List[Step]) -> int:
+    """Follows a course and returns the submarine's position.
+
+    :param course: a course
+    :return: horizontal position * depth
+    """
+    for step in course:
+      self.move(step)
+    return self.horizontal * self.depth
 
 
 class Part1Submarine(Submarine):
+  """Submarine interpreting a course as described in Part 1."""
+
   def move(self, step: Step):
+    """Move a submarine by `step`.
+
+    - `forward X` increases the horizontal position by `X` units.
+    - `down X` *increases* the depth by `X` units.
+    - `up X` *decreases* the depth by `X` units.
+    """
     if step.direction == Direction.FORWARD:
       self.horizontal += step.distance
     elif step.direction == Direction.DOWN:
@@ -59,11 +76,21 @@ class Part1Submarine(Submarine):
 
 
 class Part2Submarine(Submarine):
+  """Submarine interpreting a course as described in Part 2."""
+
   def __init__(self):
     super().__init__()
     self.aim: int = 0
 
   def move(self, step: Step):
+    """Move a submarine by `step`.
+
+    - `down X` *increases* your aim by `X` units.
+    - `up X` *decreases* your aim by X units.
+    - `forward X` does two things:
+        - It increases your horizontal position by `X` units.
+        - It increases your depth by your aim *multiplied by* `X`.
+    """
     if step.direction == Direction.FORWARD:
       self.horizontal += step.distance
       self.depth += self.aim * step.distance
@@ -73,14 +100,6 @@ class Part2Submarine(Submarine):
       self.aim -= step.distance
 
 
-def calculate_position(course, submarine: Submarine):
-  """Calculates a (horizontal, depth) position given a course."""
-  for step in course:
-    submarine.move(step)
-  horizontal, depth = submarine.position()
-  return horizontal * depth
-
-
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Day 1: Sonar Sweep")
   parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
@@ -88,7 +107,5 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   course = parse_course(args.infile.read())
-  print('[Part 1] horizontal position * depth =',
-        calculate_position(course, Part1Submarine()))
-  print('[Part 2] horizontal position * depth =',
-        calculate_position(course, Part2Submarine()))
+  print('[Part 1] position:', Part1Submarine().follow(course))
+  print('[Part 2] position:', Part2Submarine().follow(course))

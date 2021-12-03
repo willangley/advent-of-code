@@ -26,14 +26,10 @@ forward 2
                          dive.parse_course(self.raw_course))
 
   def test_calculate_position_part1(self):
-    self.assertEqual(150,
-                     dive.calculate_position(self.course,
-                                             dive.Part1Submarine()))
+    self.assertEqual(150, dive.Part1Submarine().follow(self.course))
 
   def test_calculate_position_part2(self):
-    self.assertEqual(900,
-                     dive.calculate_position(self.course,
-                                             dive.Part2Submarine()))
+    self.assertEqual(900, dive.Part2Submarine().follow(self.course))
 
 
 if __name__ == '__main__':
