@@ -25,21 +25,21 @@ class BinaryDiagnosticTestCase(unittest.TestCase):
 
   def test_parse_diagnostic(self):
     diagnostic = binary_diagnostic.Diagnostic.parse(self.raw_diagnostic)
-    self.assertListEqual(diagnostic.numbers,
-                         [4, 30, 22, 23, 21, 15, 7, 28, 16, 25, 2, 10])
-    self.assertEqual(diagnostic.bits, 5)
+    self.assertListEqual([4, 30, 22, 23, 21, 15, 7, 28, 16, 25, 2, 10],
+                         diagnostic.numbers)
+    self.assertEqual(5, diagnostic.bits)
 
   def test_power_consumption(self):
-    self.assertEqual(binary_diagnostic.gamma(self.diagnostic), 22)
-    self.assertEqual(binary_diagnostic.epsilon(self.diagnostic), 9)
-    self.assertEqual(binary_diagnostic.power_consumption(self.diagnostic), 198)
+    self.assertEqual(22, binary_diagnostic.gamma(self.diagnostic))
+    self.assertEqual(9, binary_diagnostic.epsilon(self.diagnostic))
+    self.assertEqual(198, binary_diagnostic.power_consumption(self.diagnostic))
 
   def test_life_support(self):
-    self.assertEqual(binary_diagnostic.oxygen_generator_rating(self.diagnostic),
-                     23)
-    self.assertEqual(binary_diagnostic.co2_scrubber_rating(self.diagnostic), 10)
-    self.assertEqual(binary_diagnostic.life_support_rating(self.diagnostic),
-                     230)
+    self.assertEqual(23,
+                     binary_diagnostic.oxygen_generator_rating(self.diagnostic))
+    self.assertEqual(10, binary_diagnostic.co2_scrubber_rating(self.diagnostic))
+    self.assertEqual(230,
+                     binary_diagnostic.life_support_rating(self.diagnostic))
 
 
 if __name__ == '__main__':

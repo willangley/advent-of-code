@@ -23,8 +23,8 @@ class SonarSweepTestCase(unittest.TestCase):
     self.report = sonar_sweep.parse_report(self.raw_report)
 
   def test_parse_report(self):
-    self.assertListEqual(sonar_sweep.parse_report(self.raw_report),
-                         [199, 200, 208, 210, 200, 207, 240, 269, 260, 263])
+    self.assertListEqual([199, 200, 208, 210, 200, 207, 240, 269, 260, 263],
+                         sonar_sweep.parse_report(self.raw_report))
 
   def test_pairwise(self):
     self.assertListEqual(['AB', 'BC', 'CD', 'DE', 'EF', 'FG'],
@@ -32,7 +32,7 @@ class SonarSweepTestCase(unittest.TestCase):
                           sonar_sweep.pairwise('ABCDEFG')])
 
   def test_count_depth_increases(self):
-    self.assertEqual(sonar_sweep.count_depth_increases(self.report), 7)
+    self.assertEqual(7, sonar_sweep.count_depth_increases(self.report))
 
   def test_threewise(self):
     self.assertListEqual(['ABC', 'BCD', 'CDE', 'DEF', 'EFG'],
@@ -40,7 +40,7 @@ class SonarSweepTestCase(unittest.TestCase):
                           sonar_sweep.threewise('ABCDEFG')])
 
   def test_count_depth_increases_windowed(self):
-    self.assertEqual(sonar_sweep.count_depth_increases_windowed(self.report), 5)
+    self.assertEqual(5, sonar_sweep.count_depth_increases_windowed(self.report))
 
 
 if __name__ == '__main__':

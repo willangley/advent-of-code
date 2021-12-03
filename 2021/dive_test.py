@@ -20,18 +20,20 @@ forward 2
     self.course = dive.parse_course(self.raw_course)
 
   def test_parse_course(self):
-    self.assertListEqual(dive.parse_course(self.raw_course),
-                         [(Direction.FORWARD, 5), (Direction.DOWN, 5),
+    self.assertListEqual([(Direction.FORWARD, 5), (Direction.DOWN, 5),
                           (Direction.FORWARD, 8), (Direction.UP, 3),
-                          (Direction.DOWN, 8), (Direction.FORWARD, 2)])
+                          (Direction.DOWN, 8), (Direction.FORWARD, 2)],
+                         dive.parse_course(self.raw_course))
 
   def test_calculate_position_part1(self):
-    self.assertEqual(
-        dive.calculate_position(self.course, dive.Part1Submarine()), 150)
+    self.assertEqual(150,
+                     dive.calculate_position(self.course,
+                                             dive.Part1Submarine()))
 
   def test_calculate_position_part2(self):
-    self.assertEqual(
-        dive.calculate_position(self.course, dive.Part2Submarine()), 900)
+    self.assertEqual(900,
+                     dive.calculate_position(self.course,
+                                             dive.Part2Submarine()))
 
 
 if __name__ == '__main__':
