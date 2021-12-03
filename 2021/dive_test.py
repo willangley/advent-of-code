@@ -25,12 +25,13 @@ forward 2
                           (Direction.FORWARD, 8), (Direction.UP, 3),
                           (Direction.DOWN, 8), (Direction.FORWARD, 2)])
 
-  def test_calculate_position(self):
-    self.assertEqual(dive.calculate_position(self.course), (15, 10))
+  def test_calculate_position_part1(self):
+    self.assertEqual(
+      dive.calculate_position(self.course, dive.Part1Submarine()), 150)
 
-  def test_multiply_position_depth(self):
-    self.assertEqual(dive.multiply_position_depth((15, 10)), 150)
-
+  def test_calculate_position_part2(self):
+    self.assertEqual(
+      dive.calculate_position(self.course, dive.Part2Submarine()), 900)
 
 if __name__ == '__main__':
   unittest.main()

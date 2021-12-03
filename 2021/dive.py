@@ -4,6 +4,7 @@
 https://adventofcode.com/2021/day/2
 """
 
+from abc import ABC, abstractmethod
 import argparse
 from enum import Enum
 import sys
@@ -33,24 +34,50 @@ def parse_course(raw_course):
   return course
 
 
-def calculate_position(course):
-  """Calculates a (horizontal, depth) position given a course."""
-  horizontal: int = 0
-  depth: int = 0
+class Submarine(ABC):
+  def __init__(self):
+    self.horizontal: int = 0
+    self.depth: int = 0
 
-  for step in course:
+  @abstractmethod
+  def move(self, step: Step):
+    pass
+
+  def position(self):
+    return (self.horizontal, self.depth)
+
+
+class Part1Submarine(Submarine):
+  def move(self, step: Step):
     if step.direction == Direction.FORWARD:
-      horizontal += step.distance
+      self.horizontal += step.distance
     elif step.direction == Direction.DOWN:
-      depth += step.distance
+      self.depth += step.distance
     elif step.direction == Direction.UP:
-      depth -= step.distance
-
-  return (horizontal, depth)
+      self.depth -= step.distance
 
 
-def multiply_position_depth(position):
-  return position[0] * position[1]
+class Part2Submarine(Submarine):
+  def __init__(self):
+    super().__init__()
+    self.aim: int = 0
+
+  def move(self, step: Step):
+    if step.direction == Direction.FORWARD:
+      self.horizontal += step.distance
+      self.depth += self.aim * step.distance
+    elif step.direction == Direction.DOWN:
+      self.aim += step.distance
+    elif step.direction == Direction.UP:
+      self.aim -= step.distance
+
+
+def calculate_position(course, submarine: Submarine):
+  """Calculates a (horizontal, depth) position given a course."""
+  for step in course:
+    submarine.move(step)
+  horizontal, depth = submarine.position()
+  return horizontal * depth
 
 
 if __name__ == "__main__":
@@ -60,5 +87,7 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   course = parse_course(args.infile.read())
-  position = calculate_position(course)
-  print('horizontal position * depth =', multiply_position_depth(position))
+  print('[Part 1] horizontal position * depth =',
+        calculate_position(course, Part1Submarine()))
+  print('[Part 2] horizontal position * depth =',
+        calculate_position(course, Part2Submarine()))
