@@ -5,3 +5,5 @@
 | Day | Puzzle | File |
 |----:|--------|------|
 |   1 | Report Repair | [report_repair.ipynb] |
+
+[report_repair.ipynb]: report_repair.ipynb
