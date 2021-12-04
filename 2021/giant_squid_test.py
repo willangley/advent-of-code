@@ -43,8 +43,14 @@ class GiantSquidTestCase(unittest.TestCase):
 
   def test_play_bingo_game(self):
     score = giant_squid.play_bingo_game(
-      *giant_squid.parse_input(self.raw_input))
+        *giant_squid.parse_input(self.raw_input))
     self.assertEqual(4512, score)
+
+  def test_play_bingo_game_to_lose(self):
+    draws, boards, marks = giant_squid.parse_input(self.raw_input)
+    score = giant_squid.play_bingo_game(
+        draws, boards, marks, giant_squid.Goal.WIN_LAST)
+    self.assertEqual(1924, score)
 
 
 if __name__ == '__main__':
