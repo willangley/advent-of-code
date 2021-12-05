@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Tests for Day 5: Hydrothermal Venture"""
 
+from dataclasses import dataclass
+from typing import List
 import unittest
 
 import hydrothermal_venture
@@ -41,16 +43,27 @@ class TestCase(unittest.TestCase):
                          self.lines)
 
   def test_points(self):
-    self.assertListEqual([Point(1, 1), Point(1, 2), Point(1, 3)],
-                         hydrothermal_venture.points(Line(1, 1, 1, 3)))
-    self.assertListEqual([Point(9, 7), Point(8, 7), Point(7, 7)],
-                         hydrothermal_venture.points(Line(9, 7, 7, 7)))
-    self.assertListEqual([Point(1, 1), Point(2, 2), Point(3, 3)],
-                         hydrothermal_venture.points(
-                             hydrothermal_venture.parse_line("1,1 -> 3,3")))
-    self.assertListEqual([Point(9, 7), Point(8, 8), Point(7, 9)],
-                         hydrothermal_venture.points(
-                             hydrothermal_venture.parse_line("9,7 -> 7,9")))
+    @dataclass
+    class TestCase:
+      name: str
+      input: str
+      expected: List[Point]
+
+    testcases = [
+        TestCase(name="part_one_down", input="1,1 -> 1,3",
+                 expected=[Point(1, 1), Point(1, 2), Point(1, 3)]),
+        TestCase(name="part_one_left", input="9,7 -> 7,7",
+                 expected=[Point(9, 7), Point(8, 7), Point(7, 7)]),
+        TestCase(name="part_two_down_right", input="1,1 -> 3,3",
+                 expected=[Point(1, 1), Point(2, 2), Point(3, 3)]),
+        TestCase(name="part_two_down_left", input="9,7 -> 7,9",
+                 expected=[Point(9, 7), Point(8, 8), Point(7, 9)])
+    ]
+
+    for case in testcases:
+      with self.subTest(name=case.name):
+        self.assertEqual(case.expected, hydrothermal_venture.points(
+            hydrothermal_venture.parse_line(case.input)))
 
   def test_print_diagram_part_one(self):
     self.assertEqual("""
