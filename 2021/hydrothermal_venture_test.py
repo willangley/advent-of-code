@@ -4,7 +4,7 @@
 import unittest
 
 import hydrothermal_venture
-from hydrothermal_venture import Line, Point
+from hydrothermal_venture import Line, Part, Point
 
 
 class TestCase(unittest.TestCase):
@@ -45,8 +45,14 @@ class TestCase(unittest.TestCase):
                          hydrothermal_venture.points(Line(1, 1, 1, 3)))
     self.assertListEqual([Point(9, 7), Point(8, 7), Point(7, 7)],
                          hydrothermal_venture.points(Line(9, 7, 7, 7)))
+    self.assertListEqual([Point(1, 1), Point(2, 2), Point(3, 3)],
+                         hydrothermal_venture.points(
+                             hydrothermal_venture.parse_line("1,1 -> 3,3")))
+    self.assertListEqual([Point(9, 7), Point(8, 8), Point(7, 9)],
+                         hydrothermal_venture.points(
+                             hydrothermal_venture.parse_line("9,7 -> 7,9")))
 
-  def test_print_diagram(self):
+  def test_print_diagram_part_one(self):
     self.assertEqual("""
 .......1..
 ..1....1..
@@ -61,9 +67,28 @@ class TestCase(unittest.TestCase):
 """.strip(), hydrothermal_venture.print_diagram(
         hydrothermal_venture.draw_diagram(self.lines)))
 
-  def test_score_diagram(self):
+  def test_score_diagram_part_one(self):
     self.assertEqual(5, hydrothermal_venture.score_diagram(
         hydrothermal_venture.draw_diagram(self.lines)))
+
+  def test_print_diagram_part_two(self):
+    self.assertEqual("""
+1.1....11.
+.111...2..
+..2.1.111.
+...1.2.2..
+.112313211
+...1.2....
+..1...1...
+.1.....1..
+1.......1.
+222111....
+""".strip(), hydrothermal_venture.print_diagram(
+        hydrothermal_venture.draw_diagram(self.lines, part=Part.TWO)))
+
+  def test_score_diagram_part_two(self):
+    self.assertEqual(12, hydrothermal_venture.score_diagram(
+        hydrothermal_venture.draw_diagram(self.lines, part=Part.TWO)))
 
 
 if __name__ == '__main__':
