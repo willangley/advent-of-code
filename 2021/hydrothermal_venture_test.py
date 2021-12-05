@@ -65,6 +65,10 @@ class TestCase(unittest.TestCase):
         self.assertEqual(case.expected, hydrothermal_venture.points(
             hydrothermal_venture.parse_line(case.input)))
 
+  def test_invalid_points(self):
+    with self.assertRaises(ValueError):
+      hydrothermal_venture.points(hydrothermal_venture.parse_line("1,1 -> 3,4"))
+
   def test_print_diagram_part_one(self):
     self.assertEqual("""
 .......1..

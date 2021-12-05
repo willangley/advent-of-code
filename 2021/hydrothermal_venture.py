@@ -50,6 +50,12 @@ def points(line: Line) -> List[Point]:
   step_x = cmp(line.x2, line.x1)
   step_y = cmp(line.y2, line.y1)
 
+  norm_x = abs(line.x2 - line.x1)
+  norm_y = abs(line.y2 - line.y1)
+  if step_x and step_y and norm_x != norm_y:
+    raise ValueError("Expected horizontal, vertical, or diagonal at 45 degree "
+                     "line.")
+
   points: List[Point] = [Point(line.x1, line.y1)]
   while True:
     current = points[-1]
