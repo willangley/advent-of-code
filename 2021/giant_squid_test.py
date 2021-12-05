@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+"""Tests for Day 4: Giant Squid"""
 import unittest
 
 import giant_squid
