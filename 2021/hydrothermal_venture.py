@@ -19,18 +19,8 @@ class Line(NamedTuple):
   y2: int
 
 
-class Point(NamedTuple):
-  x: int
-  y: int
-
-
-class Part(Enum):
-  ONE = 1
-  TWO = 2
-
-
 def parse_line(raw_line: str) -> Line:
-  """Parses a line of input into a Line."""
+  """Parses a line of input into a ``Line``."""
   line_match = re.match(r"(\d+),(\d+) -> (\d+),(\d+)", raw_line)
   return Line(*(int(i) for i in line_match.groups()))
 
@@ -40,21 +30,24 @@ def parse_input(raw_input: str) -> List[Line]:
   return [parse_line(line) for line in raw_input.strip().splitlines()]
 
 
-Diagram = List[List[int]]
+class Point(NamedTuple):
+  x: int
+  y: int
 
 
 def points(line: Line) -> List[Point]:
+  """Returns points covered by line ``line``."""
+  norm_x = abs(line.x2 - line.x1)
+  norm_y = abs(line.y2 - line.y1)
+  if norm_x and norm_y and norm_x != norm_y:
+    raise ValueError("Expected horizontal, vertical, or 45 degree diagonal "
+                     "line.")
+
   def cmp(a, b):
     return (a > b) - (a < b)
 
   step_x = cmp(line.x2, line.x1)
   step_y = cmp(line.y2, line.y1)
-
-  norm_x = abs(line.x2 - line.x1)
-  norm_y = abs(line.y2 - line.y1)
-  if step_x and step_y and norm_x != norm_y:
-    raise ValueError("Expected horizontal, vertical, or diagonal at 45 degree "
-                     "line.")
 
   points: List[Point] = [Point(line.x1, line.y1)]
   while True:
@@ -65,7 +58,28 @@ def points(line: Line) -> List[Point]:
   return points
 
 
+class Part(Enum):
+  ONE = 1
+  TWO = 2
+
+
+Diagram = List[List[int]]
+
+
 def draw_diagram(lines: List[Line], part: Part = Part.ONE) -> Diagram:
+  """Draws a diagram of hydrothermal vents on the ocean floor.
+
+  Each position in the diagram contains the number of vents detected at that
+  position, following the rules for the requested ``part`` of the puzzle:
+
+  - if ``part == Part.ONE`` (the default), only horizontal and vertical lines
+    will be considered.
+  - if ``part == Part.TWO``, all lines will be considered.
+
+  :param lines: lines detected by the submarine's sensors.
+  :param part: the part of the puzzle.
+  :return: diagram of vents.
+  """
   if part == Part.ONE:
     lines = [line for line in lines if line.x1 == line.x2 or line.y1 == line.y2]
 
@@ -81,10 +95,16 @@ def draw_diagram(lines: List[Line], part: Part = Part.ONE) -> Diagram:
 
 
 def score_diagram(diagram: Diagram) -> int:
+  """Calculates the score for a given diagram.
+
+  Each point in the diagram with two or more vents contributes one point to the
+  score.
+  """
   return sum(sum(1 for c in row if c > 1) for row in diagram)
 
 
 def print_diagram(diagram: Diagram) -> str:
+  """Prints the diagram, following the format used by the puzzle."""
   return '\n'.join(
       ''.join('.' if c == 0 else str(c) for c in row) for row in diagram)
 
