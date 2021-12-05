@@ -140,7 +140,7 @@ def play_bingo_game(draws: List[int], boards: List[List[List[int]]],
 
 
 if __name__ == "__main__":
-  parser = argparse.ArgumentParser(description="Day 1: Sonar Sweep")
+  parser = argparse.ArgumentParser(description="Day 4: Giant Squid")
   parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
                       default=sys.stdin)
   args = parser.parse_args()
