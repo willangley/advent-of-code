@@ -26,6 +26,7 @@ class Point(NamedTuple):
 
 class Part(Enum):
   ONE = 1
+  TWO = 2
 
 
 def parse_line(raw_line: str) -> Line:
@@ -43,12 +44,19 @@ Diagram = List[List[int]]
 
 
 def points(line: Line) -> List[Point]:
-  if line.x1 == line.x2:
-    step = 1 if line.y2 >= line.y1 else -1
-    return [Point(line.x1, y) for y in range(line.y1, line.y2 + step, step)]
-  elif line.y1 == line.y2:
-    step = 1 if line.x2 >= line.x1 else -1
-    return [Point(x, line.y1) for x in range(line.x1, line.x2 + step, step)]
+  def cmp(a, b):
+    return (a > b) - (a < b)
+
+  step_x = cmp(line.x2, line.x1)
+  step_y = cmp(line.y2, line.y1)
+
+  points: List[Point] = [Point(line.x1, line.y1)]
+  while True:
+    current = points[-1]
+    if current.x == line.x2 and current.y == line.y2:
+      break
+    points.append(Point(x=current.x + step_x, y=current.y + step_y))
+  return points
 
 
 def draw_diagram(lines: List[Line], part: Part = Part.ONE) -> Diagram:
@@ -83,3 +91,4 @@ if __name__ == "__main__":
 
   lines = parse_input(args.infile.read())
   print('[Part 1] score:', score_diagram(draw_diagram(lines)))
+  print('[Part 2] score:', score_diagram(draw_diagram(lines, part=Part.TWO)))
