@@ -28,5 +28,24 @@ class TestCase(unittest.TestCase):
                      lanternfish.simulate(lanternfish.parse_input("3,4,3,1,2"),
                                           80))
 
+  def test_fast_simulate_day(self):
+    self.assertListEqual([1, 1, 2, 1, 0, 0, 0, 0, 0],
+                         lanternfish.fast_simulate_day(
+                             [0, 1, 1, 2, 1, 0, 0, 0, 0]))
+
+  def test_fast_simulate(self):
+    self.assertEqual(26,
+                     lanternfish.fast_simulate(
+                         lanternfish.parse_input("3,4,3,1,2"),
+                         18))
+    self.assertEqual(5934,
+                     lanternfish.fast_simulate(
+                         lanternfish.parse_input("3,4,3,1,2"),
+                         80))
+    self.assertEqual(26984457539,
+                     lanternfish.fast_simulate(
+                         lanternfish.parse_input("3,4,3,1,2"),
+                         256))
+
 if __name__ == '__main__':
   unittest.main()

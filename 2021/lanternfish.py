@@ -25,6 +25,27 @@ def simulate(school: List[int], days: int) -> int:
   return len(school)
 
 
+def flatten_school(school: List[int]) -> List[int]:
+  flat_school = [0 for _ in range(9)]
+  for fish in school:
+    flat_school[fish] += 1
+  return flat_school
+
+
+def fast_simulate_day(flat_school: List[int]) -> List[int]:
+  spawning = flat_school[0]
+  flat_school[:8], flat_school[8] = flat_school[1:], spawning
+  flat_school[6] += spawning
+  return flat_school
+
+
+def fast_simulate(school: List[int], days: int) -> int:
+  flat_school = flatten_school(school)
+  for day in range(1, days + 1):
+    flat_school = fast_simulate_day(flat_school)
+  return sum(flat_school)
+
+
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Day 6: Lanternfish")
   parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
@@ -33,3 +54,4 @@ if __name__ == "__main__":
 
   school = parse_input(args.infile.read())
   print('[Part 1] fish', simulate(school, 80))
+  print('[Part 2] fish', fast_simulate(school, 256))
