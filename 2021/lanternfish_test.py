@@ -6,7 +6,7 @@ import unittest
 import lanternfish
 
 
-class TestCase(unittest.TestCase):
+class LanternfishTestCase(unittest.TestCase):
   def setUp(self):
     self.raw_input = "3,4,3,1,2"
 
@@ -14,38 +14,36 @@ class TestCase(unittest.TestCase):
     self.assertListEqual([3, 4, 3, 1, 2],
                          lanternfish.parse_input(self.raw_input))
 
+  def test_flatten_school(self):
+    self.assertEqual([0, 1, 1, 2, 1, 0, 0, 0, 0],
+                     lanternfish.flatten_school([3, 4, 3, 1, 2]))
+    self.assertEqual([1, 1, 2, 1, 0, 0, 0, 0, 0],
+                     lanternfish.flatten_school([2, 3, 2, 0, 1]))
+    self.assertEqual([1, 2, 1, 0, 0, 0, 1, 0, 1],
+                     lanternfish.flatten_school([1, 2, 1, 6, 0, 8]))
+
   def test_simulate_day(self):
-    self.assertListEqual([2, 3, 2, 0, 1],
-                         lanternfish.simulate_day([3, 4, 3, 1, 2]))
-    self.assertListEqual([1, 2, 1, 6, 0, 8],
-                         lanternfish.simulate_day([2, 3, 2, 0, 1]))
+    self.assertListEqual([1, 1, 2, 1, 0, 0, 0, 0, 0],
+                         lanternfish.simulate_day(
+                             [0, 1, 1, 2, 1, 0, 0, 0, 0]))
+    self.assertListEqual([1, 2, 1, 0, 0, 0, 1, 0, 1],
+                         lanternfish.simulate_day(
+                             [1, 1, 2, 1, 0, 0, 0, 0, 0]))
 
   def test_simulate(self):
     self.assertEqual(26,
-                     lanternfish.simulate(lanternfish.parse_input("3,4,3,1,2"),
-                                          18))
-    self.assertEqual(5934,
-                     lanternfish.simulate(lanternfish.parse_input("3,4,3,1,2"),
-                                          80))
-
-  def test_fast_simulate_day(self):
-    self.assertListEqual([1, 1, 2, 1, 0, 0, 0, 0, 0],
-                         lanternfish.fast_simulate_day(
-                             [0, 1, 1, 2, 1, 0, 0, 0, 0]))
-
-  def test_fast_simulate(self):
-    self.assertEqual(26,
-                     lanternfish.fast_simulate(
+                     lanternfish.simulate(
                          lanternfish.parse_input("3,4,3,1,2"),
                          18))
     self.assertEqual(5934,
-                     lanternfish.fast_simulate(
+                     lanternfish.simulate(
                          lanternfish.parse_input("3,4,3,1,2"),
                          80))
     self.assertEqual(26984457539,
-                     lanternfish.fast_simulate(
+                     lanternfish.simulate(
                          lanternfish.parse_input("3,4,3,1,2"),
                          256))
+
 
 if __name__ == '__main__':
   unittest.main()
