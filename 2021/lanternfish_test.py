@@ -8,11 +8,11 @@ import lanternfish
 
 class TestCase(unittest.TestCase):
   def setUp(self):
-    self.raw_input = """
-"""
+    self.raw_input = "3,4,3,1,2"
 
   def test_parse_input(self):
-    self.assertListEqual([], lanternfish.parse_input(self.raw_input))
+    self.assertListEqual([3, 4, 3, 1, 2],
+                         lanternfish.parse_input(self.raw_input))
 
 
 if __name__ == '__main__':

@@ -6,11 +6,11 @@ https://adventofcode.com/2021/day/6
 
 import argparse
 import sys
+from typing import List
 
 
-def parse_input(raw_input: str):
-  for line in raw_input.strip().splitlines():
-    pass
+def parse_input(raw_input: str) -> List[int]:
+  return [int(i) for i in raw_input.strip().split(',')]
 
 
 if __name__ == "__main__":
