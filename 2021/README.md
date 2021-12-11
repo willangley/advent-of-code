@@ -13,6 +13,7 @@
 |   7 | The Treachery of Whales | [the_treachery_of_whales.py] |
 |   8 | Seven Segment Search    | [seven_segment_search.py] |
 |   9 | Smoke Basin             | [smoke_basin.py] |
+|  10 | Syntax Scoring          | [syntax_scoring.py] |
 
 [giant_squid.py]: giant_squid.py
 [binary_diagnostic.py]: binary_diagnostic.py
@@ -22,4 +23,5 @@
 [seven_segment_search.py]: seven_segment_search.py
 [smoke_basin.py]: smoke_basin.py
 [sonar_sweep.py]: sonar_sweep.py
+[syntax_scoring.py]: syntax_scoring.py
 [the_treachery_of_whales.py]: the_treachery_of_whales.py
