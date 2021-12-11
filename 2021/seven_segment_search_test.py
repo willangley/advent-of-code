@@ -21,8 +21,13 @@ egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb
 gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
 """
 
-  def test_parse_input(self):
-    self.assertListEqual([], seven_segment_search.parse_input(self.raw_input))
+  def test_count_digits(self):
+    entries = seven_segment_search.parse_input(self.raw_input)
+    self.assertEqual(26, seven_segment_search.count_digits(entries))
+
+  def test_sum_digits(self):
+    entries = seven_segment_search.parse_input(self.raw_input)
+    self.assertEqual(61229, seven_segment_search.sum_digits(entries))
 
 
 if __name__ == '__main__':
