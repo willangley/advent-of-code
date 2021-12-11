@@ -33,6 +33,10 @@ class SmokeBasinTestCase(unittest.TestCase):
                                         smoke_basin.find_low_points(
                                             heightmap)))
 
+  def test_largest_basins(self):
+    heightmap = smoke_basin.parse_input(self.raw_input)
+    self.assertEqual(1134, smoke_basin.largest_basins(heightmap))
+
 
 if __name__ == '__main__':
   unittest.main()
