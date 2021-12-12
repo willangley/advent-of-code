@@ -9,8 +9,8 @@ import sys
 
 
 def parse_input(raw_input: str):
-  for line in raw_input.strip().splitlines():
-    pass
+  return [[int(c) for c in line.strip()] for line in
+          raw_input.strip().splitlines()]
 
 
 if __name__ == "__main__":
