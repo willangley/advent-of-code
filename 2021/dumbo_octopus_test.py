@@ -35,12 +35,12 @@ class TestCase(unittest.TestCase):
          [5, 2, 8, 3, 7, 5, 1, 5, 2, 6]],
         dumbo_octopus.parse_input(self.raw_input))
 
-  def test_step(self):
-    succ, flash_count = dumbo_octopus.step([[1, 1, 1, 1, 1],
-                                            [1, 9, 9, 9, 1],
-                                            [1, 9, 1, 9, 1],
-                                            [1, 9, 9, 9, 1],
-                                            [1, 1, 1, 1, 1]])
+  def test_simulate_step(self):
+    succ, flash_count = dumbo_octopus.simulate_step([[1, 1, 1, 1, 1],
+                                                     [1, 9, 9, 9, 1],
+                                                     [1, 9, 1, 9, 1],
+                                                     [1, 9, 9, 9, 1],
+                                                     [1, 1, 1, 1, 1]])
     self.assertEqual([[3, 4, 5, 4, 3],
                       [4, 0, 0, 0, 4],
                       [5, 0, 0, 0, 5],
@@ -51,6 +51,10 @@ class TestCase(unittest.TestCase):
   def test_simulate(self):
     start = dumbo_octopus.parse_input(self.raw_input)
     self.assertEqual(1656, dumbo_octopus.simulate(start, 100))
+
+  def test_simulate_until_all_flash(self):
+    start = dumbo_octopus.parse_input(self.raw_input)
+    self.assertEqual(195, dumbo_octopus.simulate_until_all_flash(start))
 
 
 if __name__ == '__main__':
