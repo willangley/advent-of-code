@@ -14,10 +14,12 @@
 |   8 | Seven Segment Search    | [seven_segment_search.py] |
 |   9 | Smoke Basin             | [smoke_basin.py] |
 |  10 | Syntax Scoring          | [syntax_scoring.py] |
+|  11 | Dumbo Octopus           | [dumbo_octopus.py] |
 
 [giant_squid.py]: giant_squid.py
 [binary_diagnostic.py]: binary_diagnostic.py
 [dive.py]: dive.py
+[dumbo_octopus.py]: dumbo_octopus.py
 [hydrothermal_venture.py]: hydrothermal_venture.py
 [lanternfish.py]: lanternfish.py
 [seven_segment_search.py]: seven_segment_search.py
