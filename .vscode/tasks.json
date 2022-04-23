@@ -1,0 +1,38 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start new day",
+            "type": "shell",
+            "command": "env PUZZLE_FILENAME='${input:puzzleFilename}' PUZZLE_YEAR='${input:puzzleYear}' PUZZLE_DAY='${input:puzzleDay}' PUZZLE_NAME='${input:puzzleName}' sh -c 'envsubst <'\\''.idea/fileTemplates/Advent of Code puzzle.py'\\'' >'\\''${input:puzzleYear}/${input:puzzleFilename}.py'\\''; envsubst <'\\''.idea/fileTemplates/Advent of Code puzzle.py.child.0.py'\\'' >'\\''${input:puzzleYear}/${input:puzzleFilename}_test.py'\\'''"
+        }
+    ],
+    "inputs": [
+        {
+            "type": "pickString",
+            "id": "puzzleYear",
+            "description": "Advent of Code year",
+            "options": [
+                "2021",
+            ],
+            "default": "2021",
+        },
+        {
+            "type": "promptString",
+            "id": "puzzleDay",
+            "description": "Advent of Code day",
+        },
+        {
+            "type": "promptString",
+            "id": "puzzleFilename",
+            "description": "Advent of Code filename (snake case)",
+        },
+        {
+            "type": "promptString",
+            "id": "puzzleName",
+            "description": "Advent of Code puzzle name (human-readable)",
+        }
+    ]
+}
