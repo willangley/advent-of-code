@@ -1,6 +1,7 @@
 ipykernel
 ipywidgets
 jupyter
+networkx
 numpy
 pandas
 scikit-learn
