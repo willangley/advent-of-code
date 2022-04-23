@@ -9,14 +9,14 @@ import sys
 
 
 def parse_input(raw_input: str):
-  for line in raw_input.strip().splitlines():
-    pass
+    for line in raw_input.strip().splitlines():
+        pass
 
 
 if __name__ == "__main__":
-  parser = argparse.ArgumentParser(description="Day $PUZZLE_DAY: $PUZZLE_NAME")
-  parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
-                      default=sys.stdin)
-  args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="Day $PUZZLE_DAY: $PUZZLE_NAME")
+    parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
+                        default=sys.stdin)
+    args = parser.parse_args()
 
-  _ = parse_input(args.infile.read())
+    _ = parse_input(args.infile.read())
