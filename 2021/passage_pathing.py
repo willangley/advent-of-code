@@ -12,46 +12,54 @@ from typing import Callable, List
 import networkx as nx
 
 
+START = 'start'
+END = 'end'
+PATH = 'path'
+CAN_VISIT = 'can_visit'
+
+
 def parse_input(raw_input: str) -> nx.DiGraph:
     """Parses Day 12 puzzle input."""
     graph = nx.DiGraph()
-    graph.add_nodes_from(['start', 'end'])
+    graph.add_nodes_from([START, END])
 
     for line in raw_input.strip().splitlines():
         edge = line.split('-')
         for candidate in [edge, list(reversed(edge))]:
-            if candidate[0] == 'end':
+            if candidate[0] == END:
                 continue
-            if candidate[1] == 'start':
+            if candidate[1] == START:
                 continue
             graph.add_edge(*candidate)
 
     return graph
 
 
-CanVisit = Callable[[List[str], str], bool]
+def all_paths_impl(graph: nx.DiGraph, source: str, target: str):
+    path = graph.graph[PATH]
+    path.append(source)
 
-
-def dfs_impl(graph: nx.DiGraph, u: str, path: List[str], can_visit: CanVisit):
-    if u == 'end':
+    if source == target:
         yield path
 
-    for v in graph[u]:
-        if can_visit(path, v):
-            path.append(v)
-            yield from dfs_impl(graph, v, path, can_visit)
-            path.pop()
+    for v in graph[source]:
+        if graph.graph[CAN_VISIT](path, v):
+            yield from all_paths_impl(graph, v, target)
+
+    path.pop()
 
 
-def dfs(graph: nx.DiGraph, can_visit: CanVisit):
-    start = 'start'
-    return [list(path) for path in dfs_impl(graph, start, [start], can_visit)]
+def all_paths(graph: nx.DiGraph, source: str, target: str,
+              can_visit: Callable[[List[str], str], bool]):
+    graph.graph[PATH] = []
+    graph.graph[CAN_VISIT] = can_visit
+    return [list(path) for path in all_paths_impl(graph, source, target)]
 
 
 def part_one(graph: nx.DiGraph):
     def can_visit(path: List[str], node: str) -> bool:
         return node not in path or not node.islower()
-    return len(dfs(graph, can_visit))
+    return len(all_paths(graph, START, END, can_visit))
 
 
 def part_two(graph: nx.DiGraph):
@@ -64,7 +72,7 @@ def part_two(graph: nx.DiGraph):
         small_caves = [p for p in path if p.islower()]
         return len(small_caves) == len(set(small_caves))
 
-    return len(dfs(graph, can_visit))
+    return len(all_paths(graph, START, END, can_visit))
 
 
 if __name__ == "__main__":
