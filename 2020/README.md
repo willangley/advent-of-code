@@ -14,9 +14,6 @@ Click the Binder link for each notebook to launch it live in
 
 If you're running in the included devcontainer:
 
-1. Open the notebook. Run it to install `ipykernel`.
-1. Open a Terminal
-1. Install dependencies: `$ pip install numpy pandas scikit-learn ipywidgets`
 1. When you're ready to provide real input, launch the notebook with
    `$ jupyter notebook`, since the Upload widget isn't visible within VS Code.
 
