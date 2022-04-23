@@ -54,6 +54,8 @@ b-end
 
     def test_part_one(self):
         """Test Part One of the puzzle."""
+        self.assertEqual(10, passage_pathing.part_one(
+            passage_pathing.parse_input(self.raw_input)))
 
     def test_part_two(self):
         """Test Part Two of the puzzle."""
