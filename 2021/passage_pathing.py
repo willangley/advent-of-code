@@ -28,6 +28,26 @@ def parse_input(raw_input: str) -> nx.DiGraph:
     return graph
 
 
+def dfs_impl(graph: nx.DiGraph, u: str, path: list[str]):
+    if u == 'end':
+        yield path
+
+    for v in graph[u]:
+        if v not in path or not v.islower():
+            path.append(v)
+            yield from dfs_impl(graph, v, path)
+            path.pop()
+
+
+def dfs(graph: nx.DiGraph):
+    start = 'start'
+    return [list(path) for path in dfs_impl(graph, start, [start])]
+
+
+def part_one(graph: nx.DiGraph):
+    return len(dfs(graph))
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Day 12: Passage Pathing")
     parser.add_argument('infile',
@@ -37,3 +57,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     graph = parse_input(args.infile.read())
+    print('Part one: ', part_one(graph))
