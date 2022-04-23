@@ -3,6 +3,7 @@
 
 import unittest
 
+import networkx as nx
 import passage_pathing
 
 
@@ -27,13 +28,29 @@ b-end
         """Test input parsing."""
         self.assertEqual(
             {
-                'start': {'A', 'b'},
-                'A': {'start', 'end', 'c', 'b'},
-                'b': {'start', 'A', 'd', 'end'},
-                'c': {'A'},
-                'd': {'b'},
-                'end': {'A', 'b'}
-            }, passage_pathing.parse_input(self.raw_input))
+                'start': {
+                    'A': {},
+                    'b': {}
+                },
+                'end': {},
+                'A': {
+                    'c': {},
+                    'b': {},
+                    'end': {}
+                },
+                'b': {
+                    'A': {},
+                    'd': {},
+                    'end': {}
+                },
+                'c': {
+                    'A': {}
+                },
+                'd': {
+                    'b': {}
+                }
+            },
+            nx.to_dict_of_dicts(passage_pathing.parse_input(self.raw_input)))
 
     def test_part_one(self):
         """Test Part One of the puzzle."""

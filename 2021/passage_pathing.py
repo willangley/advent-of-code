@@ -5,17 +5,25 @@ https://adventofcode.com/2021/day/12
 """
 
 import argparse
-from collections import defaultdict
 import sys
 
 
-def parse_input(raw_input: str):
+import networkx as nx
+
+
+def parse_input(raw_input: str) -> nx.DiGraph:
     """Parses Day 12 puzzle input."""
-    graph = defaultdict(set)
+    graph = nx.DiGraph()
+    graph.add_nodes_from(['start', 'end'])
+
     for line in raw_input.strip().splitlines():
         edge = line.split('-')
-        graph[edge[0]].add(edge[1])
-        graph[edge[1]].add(edge[0])
+        for candidate in [edge, list(reversed(edge))]:
+            if candidate[0] == 'end':
+                continue
+            if candidate[1] == 'start':
+                continue
+            graph.add_edge(*candidate)
 
     return graph
 
