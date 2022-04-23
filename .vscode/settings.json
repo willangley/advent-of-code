@@ -9,4 +9,5 @@
     "python.testing.pytestEnabled": false,
     "python.testing.unittestEnabled": true,
     "python.formatting.provider": "yapf",
+    "python.linting.mypyEnabled": true,
 }
