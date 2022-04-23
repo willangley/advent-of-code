@@ -6,7 +6,7 @@ https://adventofcode.com/2021/day/12
 
 import argparse
 import sys
-from typing import Callable
+from typing import Callable, List
 
 
 import networkx as nx
@@ -29,10 +29,10 @@ def parse_input(raw_input: str) -> nx.DiGraph:
     return graph
 
 
-CanVisit = Callable[[list[str], str], bool]
+CanVisit = Callable[[List[str], str], bool]
 
 
-def dfs_impl(graph: nx.DiGraph, u: str, path: list[str], can_visit: CanVisit):
+def dfs_impl(graph: nx.DiGraph, u: str, path: List[str], can_visit: CanVisit):
     if u == 'end':
         yield path
 
@@ -49,13 +49,13 @@ def dfs(graph: nx.DiGraph, can_visit: CanVisit):
 
 
 def part_one(graph: nx.DiGraph):
-    def can_visit(path: list[str], node: str) -> bool:
+    def can_visit(path: List[str], node: str) -> bool:
         return node not in path or not node.islower()
     return len(dfs(graph, can_visit))
 
 
 def part_two(graph: nx.DiGraph):
-    def can_visit(path: list[str], node: str) -> bool:
+    def can_visit(path: List[str], node: str) -> bool:
         if not node.islower():
             return True
         if node not in path:
