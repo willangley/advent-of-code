@@ -9,6 +9,7 @@ import sys
 
 
 def parse_input(raw_input: str):
+    """Parses Day $PUZZLE_DAY puzzle input."""
     for line in raw_input.strip().splitlines():
         pass
 

@@ -10,6 +10,7 @@ import sys
 
 
 def parse_input(raw_input: str):
+    """Parses Day 12 puzzle input."""
     graph = defaultdict(set)
     for line in raw_input.strip().splitlines():
         edge = line.split('-')
