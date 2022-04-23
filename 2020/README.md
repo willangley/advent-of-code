@@ -12,6 +12,14 @@ Click the Binder link for each notebook to launch it live in
 |   3 | Toboggan Trajectory | [toboggan_trajectory.ipynb] | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/willangley/advent-of-code/HEAD?labpath=2020%2Ftoboggan_trajectory.ipynb) |
 |   4 | Passport Processing | [passport_processing.ipynb] | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/willangley/advent-of-code/HEAD?labpath=2020%2Fpassport_processing.ipynb) |
 
+If you're running in the included devcontainer:
+
+1. Open the notebook. Run it to install `ipykernel`.
+1. Open a Terminal
+1. Install dependencies: `$ pip install numpy pandas scikit-learn ipywidgets`
+1. When you're ready to provide real input, launch the notebook with
+   `$ jupyter notebook`, since the Upload widget isn't visible within VS Code.
+
 [passport_processing.ipynb]: passport_processing.ipynb
 [password_philosophy.ipynb]: password_philosophy.ipynb
 [report_repair.ipynb]: report_repair.ipynb
